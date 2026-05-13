@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Instructor Guide — Tech Tools for Homeschool Students</title>
+<style>
+  :root{--teal:#0F6E56;--tpale:#E1F5EE;--tlight:#1D9E75;--blue:#185FA5;--bpale:#E6F1FB;--amber:#854F0B;--apale:#FFF3E0;--alight:#BA7517;--coral:#993C1D;--cpale:#FAECE7;--plum:#4a2060;--plite:#7b4fa0;--ppale:#f0e8f8;--gray:#f5f5f5;--border:#e0e0e0;--text:#222;--muted:#666;--radius:10px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;color:var(--text);background:#f9f9f9;padding-bottom:40px;}
+  .top-bar{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--border);padding:12px 16px 0;}
+  .top-bar h1{font-size:15px;font-weight:600;color:var(--plum);margin-bottom:10px;}
+  .tab-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:0;scrollbar-width:none;}
+  .tab-row::-webkit-scrollbar{display:none;}
+  .tab{flex-shrink:0;padding:8px 14px;border-radius:8px 8px 0 0;font-size:13px;font-weight:500;border:none;cursor:pointer;background:var(--gray);color:var(--muted);border-bottom:3px solid transparent;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  .tab.t1.active{background:var(--tpale);color:var(--teal);border-bottom-color:var(--teal);}
+  .tab.t2.active{background:var(--bpale);color:var(--blue);border-bottom-color:var(--blue);}
+  .tab.t3.active{background:var(--apale);color:var(--amber);border-bottom-color:var(--amber);}
+  .tab.t4.active{background:var(--cpale);color:var(--coral);border-bottom-color:var(--coral);}
+  .panel{display:none;padding:0 16px;}
+  .panel.active{display:block;}
+  .ws-head{border-radius:var(--radius);padding:16px 18px;margin:16px 0 12px;color:#fff;}
+  .ws-head h2{font-size:18px;font-weight:600;margin-bottom:4px;}
+  .ws-head .sub{font-size:13px;opacity:.85;}
+  .ws-head .acct{display:inline-block;margin-top:8px;font-size:12px;font-weight:500;background:rgba(255,255,255,.2);border-radius:6px;padding:3px 10px;}
+  .tools-bar{font-size:13px;color:var(--muted);background:#fff;border-radius:var(--radius);padding:10px 14px;border:1px solid var(--border);margin-bottom:14px;}
+  .tools-bar strong{color:var(--text);}
+  .prep-box{border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;}
+  .prep-box p{font-size:13px;font-weight:600;margin-bottom:8px;}
+  .prep-box ul{padding-left:16px;margin:0;}
+  .prep-box ul li{font-size:13px;line-height:1.6;margin-bottom:5px;}
+  .flow-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:14px;flex-wrap:wrap;}
+  .flow-pill{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;color:#fff;}
+  .flow-arr{font-size:13px;color:var(--muted);}
+  .sec-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:20px 0 10px;padding-top:16px;border-top:1px solid var(--border);}
+  .sec-label.first{border-top:none;padding-top:0;margin-top:4px;}
+  .step{background:#fff;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:14px;overflow:hidden;}
+  .step-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+  .step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+  .step-title{font-size:14px;font-weight:600;color:var(--text);flex:1;}
+  .step-chev{font-size:18px;color:var(--muted);transition:transform .2s;flex-shrink:0;}
+  .step-head.open .step-chev{transform:rotate(180deg);}
+  .step-body{display:none;padding:14px;border-top:1px solid var(--border);}
+  .step-body.open{display:block;}
+  .step-body p{font-size:14px;line-height:1.65;color:var(--text);margin-bottom:10px;}
+  .step-body p:last-child{margin-bottom:0;}
+  .step-body ul{padding-left:18px;margin:6px 0;}
+  .step-body ul li{font-size:14px;line-height:1.65;color:var(--text);margin-bottom:6px;}
+  .step-body ul li strong{color:var(--text);}
+  .say{background:var(--tpale);border-left:4px solid var(--tlight);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0;font-size:13px;font-style:italic;color:var(--teal);line-height:1.6;}
+  .tip{background:var(--apale);border-left:4px solid var(--alight);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0;font-size:13px;color:var(--amber);line-height:1.6;}
+  .tip strong{color:var(--amber);}
+  .alt{background:var(--ppale);border-left:4px solid var(--plite);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0;font-size:13px;color:var(--plum);line-height:1.6;}
+  .note{background:#f5f5f5;border-left:4px solid #aaa;border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0;font-size:13px;color:#555;line-height:1.6;}
+  .script-box{background:#f0f8f4;border:1px solid #9fe1cb;border-radius:var(--radius);padding:12px 14px;margin:10px 0;font-size:13px;font-style:italic;color:var(--teal);line-height:2;}
+  .script-box strong{font-style:normal;color:var(--teal);}
+  .vtable{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+  .vtable th{text-align:left;padding:8px 10px;background:#f0f0f0;font-weight:600;color:#555;border-bottom:1px solid var(--border);}
+  .vtable td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top;}
+  .vtable tr:last-child td{border-bottom:none;}
+  .vtable .sc{font-style:italic;color:var(--teal);}
+  .vtable .rc{font-family:monospace;font-size:12px;color:#888;}
+  .vtable tr:nth-child(even) td{background:#fafafa;}
+  .ws-footer{background:#2C2C2A;border-radius:var(--radius);padding:12px 16px;margin-top:16px;}
+  .ws-footer p{font-size:12px;color:#aaa;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <h1>Instructor Guide — Tech Tools for Homeschool Students</h1>
+  <div class="tab-row">
+    <button class="tab t1 active" onclick="show(1)">WS 1 · Reading</button>
+    <button class="tab t2" onclick="show(2)">WS 2 · Voice + Writing</button>
+    <button class="tab t3" onclick="show(3)">WS 3 · Math</button>
+    <button class="tab t4" onclick="show(4)">WS 4 · Organization</button>
+  </div>
+</div>
+
+<!-- WS1 -->
+<div class="panel active" id="p1">
+  <div class="ws-head" style="background:var(--teal)"><h2>Making Digital Reading Easier</h2><div class="sub">Chrome Reading Mode · Read Aloud · Xodo · Constitution PDF</div><span class="acct">No Google account needed</span></div>
+  <div class="tools-bar"><strong>Tools:</strong> Chrome Reading Mode (sidebar) · Read Aloud (pre-installed) · Xodo at xodo.com · Constitution_Workshop.pdf (on desktop)</div>
+  <div class="prep-box" style="background:var(--tpale);border:1px solid #9fe1cb;">
+    <p style="color:var(--teal);">Before the workshop — complete these setup steps</p>
+    <ul style="color:var(--teal);">
+      <li><strong>Tab 1:</strong> Pre-load en.wikipedia.org/wiki/American_Civil_War</li>
+      <li><strong>Tab 2:</strong> Pre-load Xodo with Constitution PDF — go to xodo.com → Open PDF → select Constitution_Workshop.pdf from the desktop</li>
+      <li><strong>Set Read Aloud voice:</strong> click the Read Aloud icon → voice dropdown → select Google US English → close popup. Setting is saved.</li>
+    </ul>
+  </div>
+  <div class="sec-label first">Step-by-step walkthrough</div>
+
+  <div class="step"><div class="step-head open" onclick="tog(this)"><div class="step-num" style="background:var(--teal)">1</div><div class="step-title">Open the Civil War Wikipedia page and show the clutter</div><div class="step-chev">⌄</div></div>
+  <div class="step-body open">
+    <p>This tab should already be open and pinned. Switch to it now. Point out everything competing for attention — table of contents, sidebar, images, footnotes, navigation boxes, dense columns of text.</p>
+    <p style="font-family:monospace;font-size:12px;background:#f0f0f0;padding:6px 10px;border-radius:6px;color:#444;">en.wikipedia.org/wiki/American_Civil_War</p>
+    <div class="say">"Take a look at this page for a moment. Count how many things you can find on here besides the actual article — sidebars, menus, images, links, anything that is not the text itself. This is a typical Wikipedia page — a lot going on. Now watch what happens when I click this one button."</div>
+    <p>Ask students to call out what they see — "anybody want to name something?" — then proceed to Step 2 without saying another word.</p>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--teal)">2</div><div class="step-title">Activate Reading Mode and reduce visual distractions</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Click the <strong>three dots menu</strong> → <strong>More Tools</strong> → <strong>Reading Mode</strong>. A sidebar panel opens on the right with clean text only.</p>
+    <div class="say">"Let me show you how to reduce the visual distractions on any page."</div>
+    <p>Point to both sides — "Same article. You choose which version your brain works with."</p>
+    <p>Teach the Reading Mode sidebar controls:</p>
+    <ul>
+      <li><strong>Background color</strong> — white, sepia, dark, high contrast</li>
+      <li><strong>Font style</strong> — serif or sans-serif</li>
+      <li><strong>Font size</strong> — increase or decrease</li>
+      <li><strong>Line height</strong> — more space between lines — helps students who lose their place</li>
+      <li><strong>Letter spacing</strong> — spreads characters apart — reduces crowding for visual tracking difficulties</li>
+      <li><strong>Links</strong> — toggle off to reduce visual noise</li>
+      <li><strong>Images</strong> — toggle off for text-only experience</li>
+    </ul>
+    <div class="say">"All of these are personal — there is no right setting. Try them until the page feels comfortable to read. The point is that you are in control of how information looks when it comes to you."</div>
+    <div class="tip"><strong>Tip:</strong> Reading Mode works on most article and text-heavy pages. It may not activate on every website.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--teal)">3</div><div class="step-title">Use Read Aloud on the Civil War article</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Click the <strong>Read Aloud speaker icon</strong> in Chrome toolbar. The popup appears and begins reading using the Google US English voice set during setup.</p>
+    <ul>
+      <li><strong>Speed slider</strong> — start at 1x then bump to 1.2x or 1.5x live so students hear the difference</li>
+      <li><strong>Voice dropdown</strong> — already set to Google US English. Students can change at home to find a voice they prefer.</li>
+      <li><strong>Click any word to jump there</strong> — demonstrate mid-paragraph. Most useful for re-reading or picking up where they left off.</li>
+    </ul>
+    <div class="say">"You can read along with the highlighting, or just listen while you take notes by hand. You can slow it down for hard vocabulary or speed it up once comfortable. You are in control of how this information gets into your brain."</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--teal)">4</div><div class="step-title">Switch to Xodo and annotate the Constitution PDF</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>This tab should already be open with the Constitution PDF loaded. Switch to it now.</p>
+    <div class="say">"Now we are going to work with a PDF — the format most assigned readings, textbooks, and worksheets come in. We are using the Constitution because most of you have heard of it, and it is dense enough to show why these tools matter."</div>
+    <ul>
+      <li><strong>Zoom:</strong> Hold Ctrl and scroll up. Reduces visual crowding on dense text.</li>
+      <li><strong>Highlight:</strong> Click highlighter icon. Yellow for First Amendment, second color for Second Amendment. Different colors = different categories.</li>
+      <li><strong>Sticky note:</strong> Click comment bubble icon → click anywhere → type a question like "What does 'abridging' mean?"</li>
+    </ul>
+    <p><strong>Saving:</strong> Click the Download icon in the Xodo toolbar. Annotations are embedded in the saved file.</p>
+    <div class="tip"><strong>Tip:</strong> No account needed. If a student closes the tab without downloading, annotations are lost.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--teal)">5</div><div class="step-title">Use Read Aloud on the Constitution PDF inside Xodo</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>With the Constitution PDF open in Xodo, click the <strong>Read Aloud speaker icon</strong> in the Xodo toolbar.</p>
+    <div class="say">"Now you are using three tools together — a PDF viewer, your own annotations, and text-to-speech — all in one tab. This is how you turn any assigned reading into something you can actually work through."</div>
+    <div class="alt"><strong>Alt:</strong> If Xodo's reader sounds too robotic, click the Read Aloud Chrome extension icon instead — it uses the better Google voice.</div>
+  </div></div>
+
+  <div class="ws-footer"><p><strong>Tools used:</strong> Chrome Reading Mode · Read Aloud extension · Xodo (xodo.com) · Constitution PDF</p></div>
+</div>
+
+<!-- WS2 -->
+<div class="panel" id="p2">
+  <div class="ws-head" style="background:var(--blue)"><h2>Voice Typing and Writing</h2><div class="sub">Speechnotes · Google Docs · Grammarly</div><span class="acct">Google account required — bring credentials</span></div>
+  <div class="tools-bar"><strong>Tools:</strong> Speechnotes at speechnotes.co · Google Docs · Grammarly (pre-installed)</div>
+  <div class="flow-bar">
+    <span class="flow-pill" style="background:var(--blue)">1 · Speechnotes</span><span class="flow-arr">→</span>
+    <span class="flow-pill" style="background:var(--blue)">2 · Google Docs</span><span class="flow-arr">→</span>
+    <span class="flow-pill" style="background:var(--blue)">3 · Grammarly</span>
+  </div>
+  <div class="sec-label first">Step-by-step walkthrough</div>
+
+  <div class="step"><div class="step-head open" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">1</div><div class="step-title">Introduce Speechnotes and teach voice commands</div><div class="step-chev">⌄</div></div>
+  <div class="step-body open">
+    <p>Go to <strong>speechnotes.co</strong> in Chrome. The notepad opens immediately — no account, no setup. Before students start dictating, walk through the voice commands so they can use them right away.</p>
+    <p>Speechnotes supports punctuation and basic text commands only — no formatting commands.</p>
+    <table class="vtable">
+      <thead><tr><th>What you want</th><th>Say this</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Period</td><td class="sc">"period"</td><td class="rc">.</td></tr>
+        <tr><td>Comma</td><td class="sc">"comma"</td><td class="rc">,</td></tr>
+        <tr><td>Question mark</td><td class="sc">"question mark"</td><td class="rc">?</td></tr>
+        <tr><td>Exclamation point</td><td class="sc">"exclamation point"</td><td class="rc">!</td></tr>
+        <tr><td>Open parenthesis</td><td class="sc">"open parenthesis"</td><td class="rc">(</td></tr>
+        <tr><td>Close parenthesis</td><td class="sc">"close parenthesis"</td><td class="rc">)</td></tr>
+        <tr><td>Percent sign</td><td class="sc">"percent sign"</td><td class="rc">%</td></tr>
+        <tr><td>Colon</td><td class="sc">"colon"</td><td class="rc">:</td></tr>
+        <tr><td>Semicolon</td><td class="sc">"semicolon"</td><td class="rc">;</td></tr>
+        <tr><td>Dash</td><td class="sc">"dash"</td><td class="rc">—</td></tr>
+        <tr><td>New paragraph</td><td class="sc">"new paragraph"</td><td class="rc">new line</td></tr>
+        <tr><td>New line</td><td class="sc">"new line"</td><td class="rc">line break</td></tr>
+      </tbody>
+    </table>
+    <div class="say">"These are the commands you will use while you dictate. Practice saying a full sentence with at least one comma, end by saying period, then say new paragraph and start the next thought."</div>
+    <div class="tip"><strong>Tip:</strong> Speechnotes works best at normal pace and volume. In a noisy room have students lean slightly toward the mic — not louder than normal.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">2</div><div class="step-title">Open the microphone and dictate the Galaxy of Discovery script</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Click the large <strong>microphone button</strong> at the bottom center of Speechnotes. Click Allow when Chrome asks for microphone permission.</p>
+    <div class="tip"><strong>Tip:</strong> If the mic doesn't activate: click the microphone icon in the Chrome address bar → Allow.</div>
+    <div class="alt"><strong>Alt:</strong> If a student's mic isn't working, they can type directly in Speechnotes — Grammarly still activates inside it.</div>
+    <p>Have students dictate this script using the voice commands they just learned. All formatting is applied in Google Docs after pasting.</p>
+    <div class="script-box">
+      <strong>Dictate this:</strong><br><br>
+      A Galaxy of Discovery new line<br>
+      A Long Time Ago new line<br><br>
+      A long time ago comma in a galaxy far comma far away comma brave explorers dreamed of reaching the stars period For centuries comma humans looked up at the night sky and wondered what secrets the universe was hiding period The dream of space exploration was born in the hearts of scientists comma engineers comma and adventurers who refused to believe the stars were out of reach period new line<br><br>
+      The Rebellion Against Gravity new line<br><br>
+      In 1957 comma a small metal sphere called Sputnik was launched into orbit comma and the space race began period The rebellion against gravity had officially started period Nations poured their greatest minds and resources into reaching beyond the atmosphere period In 1969 comma the rebellion reached its greatest victory when humans landed on the moon period The rebellion changed everything period new line<br><br>
+      The Force of the Future new line<br><br>
+      Today the rebellion continues period Space agencies and private companies are launching missions deeper into the galaxy than ever before period Mars comma asteroids comma and distant moons are the new frontier period The force driving exploration forward is the same force that has always guided humanity comma curiosity period The rebellion against gravity will never be complete period
+    </div>
+    <div class="note"><strong>Note:</strong> "rebellion" appears 6 times — intentional for the Find and Replace demo in Google Docs.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">3</div><div class="step-title">Copy from Speechnotes and paste into Google Docs</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Click the <strong>Copy button</strong> at the top of Speechnotes. Open a new tab → <strong>docs.google.com</strong> → sign in → Blank document.</p>
+    <p>Rename immediately: <em>Galaxy of Discovery – May 2026</em></p>
+    <p>Press <strong>Ctrl + V</strong> to paste.</p>
+    <div class="say">"You just moved your spoken ideas into a real document. Google Docs is now going to do something Speechnotes cannot — it is going to let us format, organize, and polish this piece."</div>
+    <div class="note"><strong>Note:</strong> Google Docs autosaves every change automatically. You will never click Save. Every edit is captured instantly.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">4</div><div class="step-title">Apply headings and reveal the Document Outline</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <ul>
+      <li>Click into <strong>"A Galaxy of Discovery"</strong> → style dropdown → <strong>Heading 1</strong></li>
+      <li>Click into <strong>"A Long Time Ago"</strong> → <strong>Heading 2</strong></li>
+      <li>Click into <strong>"The Rebellion Against Gravity"</strong> → <strong>Heading 2</strong></li>
+      <li>Click into <strong>"The Force of the Future"</strong> → <strong>Heading 2</strong></li>
+      <li>Now go to <strong>View → Show Document Outline</strong> → four headings appear in left panel immediately</li>
+    </ul>
+    <div class="say">"The outline panel on the left is your navigation map. Click any heading and you jump to that section instantly. For longer documents this is how you move around without scrolling forever."</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">5</div><div class="step-title">Run Find and Replace</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Press <strong>Ctrl + H</strong> to open Find and Replace.</p>
+    <ul>
+      <li>Find: <strong>rebellion</strong></li>
+      <li>Replace with: <strong>mission</strong></li>
+      <li>Click <strong>Replace All</strong></li>
+    </ul>
+    <p>All six instances replaced instantly across the entire document.</p>
+    <div class="say">"Six changes in one click. Imagine doing that by hand in a ten-page essay. Find and Replace is one of the most underused tools in writing."</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">6</div><div class="step-title">View Version History</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Go to <strong>File → Version History → See Version History</strong>. A timeline panel opens showing every change with timestamps.</p>
+    <div class="say">"Notice we never once clicked Save. Google Docs saved every single change automatically as you made it. This timeline shows every edit with a timestamp. If you ever delete something by accident or want to go back to an earlier version — it is all here."</div>
+    <div class="tip"><strong>Parents:</strong> File → Version History → See Version History shows exactly when your student made edits and what changed.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--blue)">7</div><div class="step-title">Use Grammarly to review the document</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Grammarly activates automatically inside Google Docs.</p>
+    <ul>
+      <li><strong>Red</strong> — spelling or grammar error</li>
+      <li><strong>Yellow</strong> — clarity suggestion</li>
+      <li><strong>Blue</strong> — style or tone suggestion</li>
+    </ul>
+    <p>Hover over any underline to see the suggestion. Click to accept or X to dismiss.</p>
+    <div class="say">"Grammarly does not write for you. It flags things that might be off and you decide whether to change them. You are always in charge of your own words."</div>
+  </div></div>
+
+  <div class="ws-footer"><p><strong>Tools used:</strong> Speechnotes (speechnotes.co) · Google Docs · Grammarly for Chrome</p></div>
+</div>
+
+<!-- WS3 -->
+<div class="panel" id="p3">
+  <div class="ws-head" style="background:var(--amber)"><h2>Organizing Math Work and Graphing</h2><div class="sub">FreeMath · Desmos Graphing · Desmos Scientific · Desmos Geometry</div><span class="acct">No Google account needed</span></div>
+  <div class="tools-bar"><strong>Tools:</strong> freemathapp.org · desmos.com/calculator · desmos.com/scientific · desmos.com/geometry</div>
+  <div class="sec-label first">Step-by-step walkthrough</div>
+
+  <div class="step"><div class="step-head open" onclick="tog(this)"><div class="step-num" style="background:var(--amber)">1</div><div class="step-title">FreeMath — organized step-by-step math work</div><div class="step-chev">⌄</div></div>
+  <div class="step-body open">
+    <p>Go to <strong>freemathapp.org</strong>. Under the <strong>Students</strong> section, click the blue <strong>Create</strong> button.</p>
+    <div class="say">"Instead of scratch paper where steps get crossed out and lost, FreeMath keeps every step in order so you can see exactly where something went wrong."</div>
+    <p>Demo solving <strong>3x + 7 = 22</strong>:</p>
+    <ul>
+      <li>Type <strong>1</strong> in the Problem Number field — this is Step 1: <strong>3x + 7 = 22</strong></li>
+      <li>Press Enter — the problem copies into a new box below</li>
+      <li>Edit that box to show: <strong>3x = 15</strong></li>
+      <li>Press Enter — copies into a new box below</li>
+      <li>Edit to show the solution: <strong>x = 5</strong> — this last box is your answer</li>
+    </ul>
+    <p>Show the <strong>math keyboard</strong> at the bottom — for inserting ÷ √ fractions and Greek letters.</p>
+    <p>Show the <strong>three dots</strong> beside any step — add a step above, change between expression and text mode, or change to an image step.</p>
+    <div class="tip"><strong>Tip:</strong> Students must save before closing or work is lost. Options: save to device, Google Drive, submit to Google Classroom, or print.</div>
+    <div class="note"><strong>Note:</strong> The Draw button allows freehand drawing. The Snap button lets students photograph handwritten work with their webcam and attach it.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--amber)">2</div><div class="step-title">Desmos Graphing Calculator — equations and tables</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Go to <strong>desmos.com/calculator</strong>. No account, no install.</p>
+    <p><strong>Graphing equations:</strong></p>
+    <ul>
+      <li>Type <strong>y = 2x + 1</strong> → press Enter. A line appears instantly.</li>
+      <li>Type <strong>y = x^2</strong> in the next box. A parabola appears automatically.</li>
+    </ul>
+    <p><strong>Changing line color and style:</strong></p>
+    <ul>
+      <li>Click the expression box to select it → click the <strong>settings icon</strong> (colored circle) to the left of the equation</li>
+      <li>Change the <strong>color</strong> and <strong>line style</strong> — solid, dotted, or dashed</li>
+    </ul>
+    <p><strong>Table feature with y = 2x + 1:</strong></p>
+    <ul>
+      <li>With y = 2x + 1 entered, click <strong>+</strong> → <strong>Table</strong></li>
+      <li>Type x values: 0, 1, 2, 3, 4</li>
+      <li>Desmos fills in y values: 1, 3, 5, 7, 9 automatically based on the equation</li>
+      <li>Points plot on the line already drawn</li>
+    </ul>
+    <div class="say">"The equation, the table, and the graph are all showing you the same relationship three different ways. That is one of the most important ideas in algebra."</div>
+    <div class="tip"><strong>Tip:</strong> The table auto-fills y values when linked to a linear equation like y = 2x + 1. For other equation types you may need to enter both x and y values manually.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--amber)">3</div><div class="step-title">Desmos Scientific Calculator</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Go to <strong>desmos.com/scientific</strong>.</p>
+    <ul>
+      <li><strong>Fractions:</strong> Type 3/4 → = for decimal. ab/c key keeps it as a fraction.</li>
+      <li><strong>Negative exponents:</strong> 2^(-3) gives 1/8</li>
+      <li><strong>Order of operations:</strong> (3+5) × 2 − 4 to verify hand calculations.</li>
+      <li><strong>Ans key:</strong> Ans + 5 continues from last result without retyping.</li>
+      <li><strong>Trig and log:</strong> sin, cos, tan, log, ln — show students where they are.</li>
+    </ul>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--amber)">4</div><div class="step-title">Desmos Geometry — Triangle Angle Sum Theorem</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Go to <strong>desmos.com/geometry</strong>.</p>
+    <p><strong>State the theorem first:</strong></p>
+    <div class="say">"The Triangle Angle Sum Theorem states that the three interior angles of any triangle — no matter its shape or size — will always add up to exactly 180 degrees. We are going to prove that right now visually instead of just taking someone's word for it."</div>
+    <ul>
+      <li>Click <strong>Polygon</strong> → click three points to create a triangle</li>
+      <li>Click <strong>Angle</strong> → click three points to measure the first angle</li>
+      <li>Repeat for the second and third angles</li>
+      <li>Add the three measurements — they equal 180 degrees</li>
+      <li>Drag any vertex to reshape the triangle — make it extreme</li>
+      <li>Watch the measurements change — add them again — still 180 degrees</li>
+    </ul>
+    <div class="say">"No matter how you reshape this triangle — make it as extreme as you want — those three angles will always add up to 180 degrees. Every triangle that has ever existed follows this rule. That is what a theorem means — it is always true, no exceptions."</div>
+  </div></div>
+
+  <div class="ws-footer"><p><strong>Tools used:</strong> FreeMath (freemathapp.org) · Desmos Graphing · Desmos Scientific · Desmos Geometry</p></div>
+</div>
+
+<!-- WS4 -->
+<div class="panel" id="p4">
+  <div class="ws-head" style="background:var(--coral)"><h2>File Organization and Study Tools</h2><div class="sub">Google Drive · Google Keep · Google Calendar · Browser tools</div><span class="acct">Google account required — bring credentials</span></div>
+  <div class="tools-bar"><strong>Tools:</strong> drive.google.com · keep.google.com · calendar.google.com · Browser tab + bookmark tools</div>
+  <div class="sec-label first">Step-by-step walkthrough</div>
+
+  <div class="step"><div class="step-head open" onclick="tog(this)"><div class="step-num" style="background:var(--coral)">1</div><div class="step-title">Sign in and build a folder structure in Google Drive</div><div class="step-chev">⌄</div></div>
+  <div class="step-body open">
+    <p>Have students sign in and go to <strong>drive.google.com</strong>.</p>
+    <div class="say">"We are going to build a filing system right now that you can use for the next school year. Every assignment goes into the right folder. When you need to find something, you know exactly where it is."</div>
+    <ul>
+      <li>Click + New → Folder → name it <strong>School – 2026</strong></li>
+      <li>Open it. Create: Language Arts, Math, History, Science</li>
+      <li>Open one subject folder. Create: Assignments, Notes, Resources</li>
+    </ul>
+    <div class="tip"><strong>Tip:</strong> Color-code folders: right-click → Change color. One color per subject.</div>
+    <div class="say">"Because Drive is connected to your Google account, every document you create or edit is stored in the cloud — not just on that one device. That means if your device crashes, your work is not lost. Whether you are at the library, a co-op class, or a family member's house, you can open your documents from any device with a browser and a Google account. Your work follows you wherever you go."</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--coral)">2</div><div class="step-title">Name files correctly from the start</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Open a new Google Doc. Point to "Untitled document."</p>
+    <div class="say">"This is the single most important habit. Every file saved as 'Untitled document' is a file that will never be found again. Give it a real name right now."</div>
+    <p><strong>Naming formula: Subject – Topic – Date</strong></p>
+    <ul>
+      <li>History – Chapter 5 Summary – May 2026</li>
+      <li>Science – Photosynthesis Notes – May 2026</li>
+    </ul>
+    <p>Drive search finds content inside Google Docs — even badly named files can be found by searching a word from them.</p>
+    <p><strong>Version history:</strong> File → Version History → See Version History. Every change timestamped automatically — Google Docs autosaves continuously, no manual save needed.</p>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--coral)">3</div><div class="step-title">Google Keep — checklists, notes, and reminders</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Open <strong>keep.google.com</strong>.</p>
+    <div class="say">"Because Keep is connected to your Google account, anything you add on one device shows up instantly on every other device signed into that account. Type a reminder on the desktop and it appears on your phone before you walk out the door. Check off a task on your tablet and your parent sees it updated on their phone in real time. You never have to remember to transfer notes or send yourself an email — it is all just there, everywhere, automatically."</div>
+    <ul>
+      <li><strong>Weekly checklist:</strong> Click the checklist icon → title it "This Week" → add tasks. Checked items move to the bottom with a strikethrough.</li>
+      <li><strong>Labels:</strong> Label icon → Create label → "School." Filter via left sidebar.</li>
+      <li><strong>Reminder:</strong> Bell icon → pick date and time. Fires on any signed-in device.</li>
+    </ul>
+    <div class="say">"Think of Keep as your brain dump. Everything you need to remember but might forget goes here. It is always with you."</div>
+    <div class="tip"><strong>Tip:</strong> Keep icon: click the Keep icon in the right side panel inside Google Docs — the column with the calendar and map icons. The Keep sidebar opens instantly. Notes sync to Keep automatically.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--coral)">4</div><div class="step-title">Browser organization — no account needed</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <ul>
+      <li><strong>Pin a tab:</strong> Right-click any tab → Pin Tab. Stays at far left even when Chrome closes. Have students pin Drive and Keep right now.</li>
+      <li><strong>Bookmark:</strong> Ctrl+D. Create a "School Tools" folder.</li>
+      <li><strong>Bookmark bar:</strong> Ctrl+Shift+B to show it.</li>
+      <li><strong>Reopen a closed tab:</strong> Ctrl+Shift+T. Press multiple times to reopen more.</li>
+      <li><strong>Tab groups:</strong> Right-click any tab → Add to group → New group → name it "School."</li>
+    </ul>
+    <div class="note"><strong>Tab groups — share this with students:</strong> Tab groups let you organize your browser the way your brain already works. Instead of scrolling through 30 open tabs, you create labeled, color-coded groups — one per subject or goal. Collapse what you are not using. Expand what you need. You can organize by outcome — "Complete History Essay by Friday" — not just by subject. That habit of thinking in deadlines and goals is exactly what college will require. One click opens your workspace. One click puts it away.</div>
+    <div class="tip"><strong>Tip:</strong> Have every student pin Drive and Keep before they leave. Ten seconds now makes a real practical difference at home.</div>
+  </div></div>
+
+  <div class="step"><div class="step-head" onclick="tog(this)"><div class="step-num" style="background:var(--coral)">5</div><div class="step-title">Google Calendar — tracking assignments and deadlines</div><div class="step-chev">⌄</div></div>
+  <div class="step-body">
+    <p>Open <strong>calendar.google.com</strong>.</p>
+    <div class="say">"Any deadline or event you add on one device appears on every device instantly. Set a reminder on the desktop and it fires on your phone. Your parent can add an assignment deadline from their phone and you see it on your device without anyone sending a text or email."</div>
+    <ul>
+      <li><strong>Create an event:</strong> Click any date → type assignment name → Save.</li>
+      <li><strong>Color-code by subject:</strong> Click event → edit → change the color dot.</li>
+      <li><strong>Subject calendar:</strong> Click + next to "Other calendars" → Create new calendar → "Math." Toggle on and off independently.</li>
+      <li><strong>Reminder:</strong> Add notification → 1 day before. Fires on any signed-in device.</li>
+    </ul>
+    <div class="say">"This is how you track your own deadlines without relying on someone else to remind you. That is a real skill worth building now."</div>
+  </div></div>
+
+  <div class="ws-footer"><p><strong>Tools used:</strong> Google Drive · Google Keep · Google Calendar · Browser tab + bookmark tools</p></div>
+</div>
+
+<script>
+function show(n){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('p'+n).classList.add('active');document.querySelectorAll('.tab')[n-1].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function tog(h){const b=h.nextElementSibling;const open=b.classList.contains('open');b.classList.toggle('open',!open);h.classList.toggle('open',!open);}
+
+// Safari iPad touch fix — attach touchend listeners to all interactive elements
+document.addEventListener('DOMContentLoaded', function() {
+  // Tab buttons
+  document.querySelectorAll('.tab').forEach(function(tab) {
+    tab.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      tab.click();
+    });
+  });
+  // Step headers
+  document.querySelectorAll('.step-head').forEach(function(head) {
+    head.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      tog(head);
+    });
+  });
+});
+</script>
+</body>
+</html>
